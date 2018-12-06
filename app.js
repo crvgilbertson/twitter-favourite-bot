@@ -2,7 +2,7 @@ const Twitter = require('twitter');
 const config = require('./config.js');
 let T = new Twitter(config);
 
-// Set up your search parameters
+// Search parameters
 var params = {
   q: '#PMQs',
   count: 10,
@@ -10,21 +10,21 @@ var params = {
   lang: 'en'
 }
 
-// Initiate your search using the above paramaters
+// Initiate search
 T.get('search/tweets', params, function(err, data, response) {
-  // If there is no error, proceed
+  // identify any errors
   if(!err){
-    // Loop through the returned tweets
+    // Loop through tweets
     for(let i = 0; i < data.statuses.length; i++){
-      // Get the tweet Id from the returned data
+      // Get tweet Id
       let id = { id: data.statuses[i].id_str }
-      // Try to Favorite the selected Tweet
+      // Favourite the tweet
       T.post('favorites/create', id, function(err, response){
-        // If the favorite fails, log the error message
+        // log error is unable to favourite
         if(err){
           console.log(err[0].message);
         }
-        // If the favorite is successful, log the url of the tweet
+        // log if successful in favouriting
         else{
           let username = response.user.screen_name;
           let tweetId = response.id_str;
